@@ -1,4 +1,4 @@
-Inspired by following repos:
+Inspired by the following repos:
 
 - https://hub.docker.com/r/bitnami/magento/dockerfile
 - https://hub.docker.com/r/alexcheng/magento2/dockerfile
