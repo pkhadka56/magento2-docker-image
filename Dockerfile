@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.9
 
 LABEL maintainer="prakash.khadka@nepallink.net"
 LABEL php_version="7.3.11"
