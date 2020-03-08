@@ -1,9 +1,9 @@
-FROM alpine:latest
+FROM alpine:3.9
 
 LABEL maintainer="prakash.khadka@nepallink.net"
-LABEL php_version="7.3.11"
+LABEL php_version="7.3"
 LABEL magento_version="2.3"
-LABEL description="Magento 2.3 with PHP 7.3.11"
+LABEL description="Magento 2.3 with PHP 7.3"
 
 ENV MAGENTO_VERSION 2.3
 ENV INSTALL_DIR /var/www/html
@@ -15,12 +15,12 @@ RUN apk add php7 php7-session php7-fpm php7-opcache php7-zlib php7-bcmath php7-c
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
 
-COPY config/default.conf /etc/nginx/conf.d/default.conf
+COPY dockerconfig/default.conf /etc/nginx/conf.d/default.conf
 
-COPY config/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
-COPY config/php.ini /etc/php7/conf.d/custom.ini
+COPY dockerconfig/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
+COPY dockerconfig/php.ini /etc/php7/conf.d/custom.ini
 
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY dockerconfig/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN mkdir -p /run/nginx/
 WORKDIR /var/www/html
@@ -44,9 +44,9 @@ RUN cd $INSTALL_DIR && find . -type f -exec chmod 644 {} \; \
     && find var pub/static pub/media generated/ app/etc -type d -exec chmod g+ws {} \; \
     && chmod u+x bin/magento
 
-EXPOSE 8080
+EXPOSE 80
 
-COPY config/start.sh /start.sh
+COPY dockerconfig/start.sh /start.sh
 RUN chmod +x /start.sh
 
 ENTRYPOINT ["/bin/sh", "/start.sh"]
